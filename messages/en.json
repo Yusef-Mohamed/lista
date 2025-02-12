@@ -1,32 +1,89 @@
 {
   "header": {
-    "searchAboutBrand": "Search about brand",
-    "mobileMenu": "Mobile Menu"
+    "searchAboutBrand": "Search for brands",
+    "mobileMenu": "Mobile menu"
   },
   "common": {
     "more": "More"
   },
-  "brands": {
-    "title": "Brands"
+  "offers": {
+    "noOffersFound": "No offers currently available"
   },
   "neerToYou": {
-    "title": "Near to you"
+    "title": "Near You"
   },
   "categories": {
     "title": "Categories"
   },
   "sidebar": {
-    "darkMode": "Dark Mode",
-    "lightMode": "Light Mode",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode",
     "home": "Home",
     "offers": "Offers",
     "brands": "Brands",
     "blog": "Blog",
-    "contact": "Contact",
+    "contact": "Contact Us",
     "joinUs": "Join Us",
     "contactUs": "Contact Us"
   },
   "blog": {
-    "allBlogs": "All Blogs"
+    "allBlogs": "All Blogs",
+    "canNotFindThisBlog": "This blog could not be found.",
+    "noBlogs": "No blogs currently available"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "message": "Explain the subject",
+    "submit": "Submit Request",
+    "submitting": "Submitting...",
+    "success": "Your message has been sent successfully",
+    "error": "An error occurred while sending your message"
+  },
+  "joinUs": {
+    "title": "Join Us",
+    "name": "Name",
+    "address": "Address",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "domain": "Domain name",
+    "message": "Explain the subject",
+    "submit": "Submit Request",
+    "submitting": "Submitting...",
+    "success": "Your request has been submitted successfully",
+    "error": "An error occurred while submitting your request"
+  },
+  "brands": {
+    "title": "Brands",
+    "filter": "Filter",
+    "sort": "Sort",
+    "filterShops": "Filter Brands",
+    "sortShops": "Sort Brands",
+    "categories": "Categories",
+    "rating": "Rating",
+    "anyRating": "Any rating",
+    "location": "Location",
+    "hasOffer": "Has offers",
+    "sortBy": "Sort by",
+    "nearest": "Nearest",
+    "a_to_z": "A to Z",
+    "sortOrder": "Sort order",
+    "asc": "Ascending",
+    "desc": "Descending",
+    "noBrands": "No brands in this category",
+    "1Star": "1 star",
+    "2Star": "2 stars",
+    "3Star": "3 stars",
+    "4Star": "4 stars",
+    "5Star": "5 stars",
+    "offers": "Offers",
+    "withOffers": "With offers",
+    "withoutOffers": "Without offers",
+    "oneBranch": "One branch",
+    "twoBranches": "Two branches",
+    "nBranches": "{count} branches",
+    "canNotFindThisBrand": "This brand could not be found."
   }
 }
