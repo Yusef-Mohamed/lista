@@ -1,0 +1,32 @@
+{
+  "header": {
+    "searchAboutBrand": "Search about brand",
+    "mobileMenu": "Mobile Menu"
+  },
+  "common": {
+    "more": "More"
+  },
+  "brands": {
+    "title": "Brands"
+  },
+  "neerToYou": {
+    "title": "Near to you"
+  },
+  "categories": {
+    "title": "Categories"
+  },
+  "sidebar": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "home": "Home",
+    "offers": "Offers",
+    "brands": "Brands",
+    "blog": "Blog",
+    "contact": "Contact",
+    "joinUs": "Join Us",
+    "contactUs": "Contact Us"
+  },
+  "blog": {
+    "allBlogs": "All Blogs"
+  }
+}

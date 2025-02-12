@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigiri House</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .menu li {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        .menu a.active {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #222;
+            color: white;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 70%;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .banner {
+            background-color: #ff6b6b;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .banner h2 {
+            color: white;
+        }
+
+        .banner p {
+            color: white;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .product {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+        }
+
+        .product p {
+            margin: 5px 0;
+        }
+
+        .product button {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Nigiri House</div>
+            <ul class="menu">
+                <li><a href="#">Set Meal</a></li>
+                <li><a href="#">BBQ</a></li>
+                <li><a href="#" class="active">Beefsteak</a></li>
+                <li><a href="#">Sushi</a></li>
+                <li><a href="#">Noodles</a></li>
+                <li><a href="#">Pork & Chicken</a></li>
+                <li><a href="#">Rice Bowl</a></li>
+                <li><a href="#">Soup</a></li>
+                <li><a href="#">Drink</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="search-bar">
+                <input type="text" placeholder="Enter a dish...">
+                <button>Select A Table</button>
+            </div>
+            <div class="banner">
+                <h2>BBQ PARTY</h2>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when
+                    looking at its layout.</p>
+                <img src="https://via.placeholder.com/600x300" alt="Banner Image">
+            </div>
+            <div class="product-grid">
+                <div class="product">
+                    <img src="https://via.placeholder.com/300x200" alt="Product 1">
+                    <h3>Core Steak 200g</h3>
+                    <p>$29</p>
+                    <button>+ Add</button>
+                </div>
+                <div class="product">
+                    <img src="https://via.placeholder.com/300x200" alt="Product 2">
+                    <h3>Beef BBQ Premium</h3>
+                    <p>$29</p>
+                    <button>+ Add</button>
+                </div>
+                <div class="product">
+                    <img src="https://via.placeholder.com/300x200" alt="Product 3">
+                    <h3>Beef Steak Tomato</h3>
+                    <p>$29</p>
+                    <button>+ Add</button>
+                </div>
+                <!-- Add more products as needed -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
