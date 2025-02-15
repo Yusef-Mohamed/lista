@@ -1,22 +1,25 @@
 import { useTranslations } from "next-intl";
 import { CarouselSection } from "./CarouselSection";
-export function Brands() {
+export function Brands({
+  brands,
+}: {
+  brands: {
+    shop_id: number;
+    image: string;
+  }[];
+}) {
   const text = useTranslations("brands");
 
   return (
     <CarouselSection
       title={text("title")}
       href="/brands"
-      items={[
-        "/images/brand.png",
-        "/images/brand.png",
-        "/images/brand.png",
-        "/images/brand.png",
-        "/images/brand.png",
-        "/images/brand.png",
-      ]}
+      items={brands.map((brand) => ({
+        image: brand.image,
+        link: `/brands/${brand.shop_id}`,
+      }))}
       classNames={{
-        itemClassName: "brands",
+        itemClassName: "brand",
       }}
     />
   );

@@ -78,6 +78,9 @@ main {
 .brand {
   aspect-ratio: 800/533;
 }
+.category {
+  aspect-ratio: 800/533;
+}
 .blog {
   aspect-ratio: 85/53;
 }

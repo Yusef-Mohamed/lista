@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Sidebar } from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
+import { LocationProvider } from "@/components/LocationContext";
 
 const alexandria = Alexandria({
   subsets: ["latin", "arabic"],
@@ -40,25 +41,27 @@ export default async function RootLayout({
     >
       <body className={`${alexandria.className} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="flex bg-background min-h-screen w-full">
-              <Sidebar className="max-lg:hidden" />
-              <div
-                className="flex-1 lg:p-4 w-full"
-                style={{
-                  minHeight: "calc(100vh - 280px)",
-                }}
-              >
-                {children}
+          <LocationProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="flex bg-background min-h-screen w-full">
+                <Sidebar className="max-lg:hidden" />
+                <div
+                  className="flex-1 lg:p-4 w-full"
+                  style={{
+                    minHeight: "calc(100vh - 280px)",
+                  }}
+                >
+                  {children}
+                </div>
               </div>
-            </div>
-            <Toaster position="top-center" />
-          </ThemeProvider>
+              <Toaster position="top-center" />
+            </ThemeProvider>
+          </LocationProvider>
         </NextIntlClientProvider>
       </body>
     </html>

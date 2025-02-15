@@ -26,6 +26,12 @@ export interface IShop {
   branches: number;
   qr_code: string;
   created_at: string;
+  branch_address: {
+    id: number;
+    title: string;
+    lat: string;
+    lng: string;
+  }[];
 }
 export interface ICategory {
   id: number;

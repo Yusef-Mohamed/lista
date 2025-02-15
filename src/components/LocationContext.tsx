@@ -1,8 +1,16 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+"use client";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 
 interface LocationContextProps {
   location: { latitude: number; longitude: number } | null;
   status: "granted" | "denied" | "prompt";
+  requestLocation: () => void; // Function to re-request location
 }
 
 const LocationContext = createContext<LocationContextProps | undefined>(
@@ -17,31 +25,38 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [status, setStatus] =
     useState<LocationContextProps["status"]>("prompt");
 
-  useEffect(() => {
-    const getLocation = () => {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setLocation({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-            setStatus("granted");
-          },
-          () => {
-            setStatus("denied");
-          }
-        );
-      } else {
-        setStatus("denied");
-      }
-    };
-
-    getLocation();
+  const getLocation = useCallback(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setStatus("granted");
+        },
+        () => {
+          setStatus("denied");
+        }
+      );
+    } else {
+      setStatus("denied");
+    }
   }, []);
 
+  // Function to re-request location permission
+  const requestLocation = useCallback(() => {
+    if (status === "denied") {
+      getLocation();
+    }
+  }, [status, getLocation]);
+
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
+
   return (
-    <LocationContext.Provider value={{ location, status }}>
+    <LocationContext.Provider value={{ location, status, requestLocation }}>
       {children}
     </LocationContext.Provider>
   );

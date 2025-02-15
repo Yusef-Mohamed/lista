@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { FilterSheet } from "./components/FilterSheet";
 import { SortSheet } from "./components/SortSheet";
-import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IShop } from "@/types";
 import { Pagination } from "@/components/Pagination";
@@ -11,7 +10,8 @@ import { Header } from "@/components/Header";
 import { createClientAxiosInstance } from "@/lib/utils";
 import useCustomSearchParams from "@/hooks/useSearchParams";
 import { SearchInput } from "@/components/Search";
-import { Link } from "@/i18n/routing";
+import { useLocation } from "@/components/LocationContext";
+import BrandCard from "@/components/BrandCard";
 
 export default function Brands() {
   return (
@@ -38,6 +38,7 @@ const BrandsContent = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const { searchParams } = useCustomSearchParams();
+  const { location, status } = useLocation();
   useEffect(() => {
     const fetchShops = async () => {
       setIsLoading(true);
@@ -55,6 +56,10 @@ const BrandsContent = () => {
             }
           }
         });
+        if (searchParams.get("sort_by") === "nearest") {
+          search["lat"] = location?.latitude;
+          search["lng"] = location?.longitude;
+        }
         const res = await axiosInstance.post("/shops", search);
         const data = res.data;
         setShops(data.data as IShop[]);
@@ -65,8 +70,8 @@ const BrandsContent = () => {
       }
       setIsLoading(false);
     };
-    fetchShops();
-  }, [searchParams]);
+    if (status !== "prompt") fetchShops();
+  }, [searchParams, location, status]);
   return (
     <section className="px-4">
       <div className="lg:hidden">
@@ -78,49 +83,7 @@ const BrandsContent = () => {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {!isLoading &&
-          shops.map((shop) => (
-            <Link
-              href={`/brands/${shop.id}`}
-              key={shop.id}
-              className="border rounded-[8%] overflow-hidden"
-            >
-              <Image
-                src={shop.background_image}
-                alt={shop.shop_name}
-                width={800}
-                height={533}
-                className="w-full transition-all object-cover brand"
-              />
-              <div className="py-3 px-4 flex items-start justify-between">
-                <div>
-                  <h3 className="text-2xl">{shop.shop_name}</h3>
-                  <p className="text-xs pt-2 ps-4 text-foreground/50">
-                    {shop.branches === 1
-                      ? t("oneBranch")
-                      : shop.branches === 2
-                      ? t("twoBranches")
-                      : t("nBranches", {
-                          count: shop.branches,
-                        })}
-                  </p>
-                  {/* <p className="text-xs py-2 ps-4 text-foreground/50">
-                    أقرب فرع لك شبرا
-                  </p> */}
-                </div>
-                <div className="flex gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
-                  {shop.rate}{" "}
-                  <svg
-                    width={10}
-                    height={10}
-                    viewBox="0 0 10 10"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M1.9125 9.625L2.725 6.40521L0 4.23958L3.6 3.95312L5 0.916664L6.4 3.95312L10 4.23958L7.275 6.40521L8.0875 9.625L5 7.91771L1.9125 9.625Z" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          ))}
+          shops.map((shop) => <BrandCard key={shop.id} shop={shop} />)}
         {!isLoading && shops.length === 0 && (
           <p className="text-xl text-muted-foreground text-center lg:col-span-3 md:col-span-2">
             {t("noBrands")}

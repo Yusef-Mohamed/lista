@@ -53,7 +53,8 @@
     "submit": "تقديم طلب",
     "submitting": "جاري الإرسال...",
     "success": "تم إرسال طلبك بنجاح",
-    "error": "حدث خطأ أثناء إرسال طلبك"
+    "error": "حدث خطأ أثناء إرسال طلبك",
+    "brandName": "اسم العلامة التجارية"
   },
   "brands": {
     "title": "العلامات التجارية",
@@ -88,6 +89,7 @@
     "egp": "ج.م",
     "branches": "الفروع",
     "phoneNumber": "رقم الهاتف",
-    "canNotFindThisProduct": "لم يتم العثور علي هذا المنتج."
+    "canNotFindThisProduct": "لم يتم العثور علي هذا المنتج.",
+    "nearestBranchToYou": "الفرع الأقرب إليك"
   }
 }

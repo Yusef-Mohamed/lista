@@ -5,18 +5,12 @@ import { Pagination } from "@/components/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Header } from "@/components/Header";
 import { getTranslations } from "next-intl/server";
-
-interface Banner {
-  id: string;
-  image: string;
-  title: string;
-}
-
-// Move the banners fetching logic to a separate component
+import { IShop } from "@/types";
+import { Link } from "@/i18n/routing";
 async function OffersContent({ page }: { page: number }) {
-  const { banners, totalPages } = await getBanners(page);
+  const { brands, totalPages } = await getBrands(page);
   const t = await getTranslations("offers");
-  if (banners.length === 0) {
+  if (brands.length === 0) {
     return (
       <section className="px-4 pb-4 gap-4 min-h-[50vh] flex items-center justify-center">
         <p className="text-xl text-muted-foreground text-center">
@@ -29,15 +23,16 @@ async function OffersContent({ page }: { page: number }) {
   return (
     <section className="px-4 pb-4">
       <div className="grid lg:grid-cols-2 gap-4">
-        {banners.map((banner: Banner) => (
-          <Image
-            key={banner.id}
-            src={banner.image}
-            alt={banner.title}
-            width={1400}
-            height={700}
-            className="banner w-full rounded-2xl object-cover"
-          />
+        {brands.map((brand: IShop) => (
+          <Link key={brand.id} href={`/brands/${brand.id}`}>
+            <Image
+              src={brand.banner_image}
+              alt={brand.shop_name}
+              width={1400}
+              height={700}
+              className="banner w-full rounded-2xl object-cover"
+            />
+          </Link>
         ))}
       </div>
       <Pagination totalPages={totalPages} currentPage={page} />
@@ -63,14 +58,19 @@ export default async function Offers({
   );
 }
 
-const getBanners = async (page: number = 1) => {
+const getBrands = async (page: number = 1) => {
   try {
-    const data = await cachedServerFetch(`/banners?page=${page}&perPage=14`);
-    return { totalPages: data.totalPages || 1, banners: data.data as Banner[] };
+    // ?page=${page}&perPage=14
+    const data = await cachedServerFetch(`/shops`, {}, "POST", {
+      page: page,
+      perPage: 14,
+      has_offer: 1,
+    });
+    return { totalPages: data.totalPages || 1, brands: data.data as IShop[] };
   } catch {
     return {
       totalPages: 0,
-      banners: [],
+      brands: [],
     };
   }
 };

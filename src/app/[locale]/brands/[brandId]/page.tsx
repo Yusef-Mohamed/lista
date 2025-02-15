@@ -1,12 +1,19 @@
 import { Header } from "@/components/Header";
 import { cachedServerFetch } from "@/lib/serverUtils";
-import { ICategory, IProduct } from "@/types";
+import { ICategory, IProduct, IShop } from "@/types";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import ProductCategoryDisplay from "./components/ProductCategoryDisplay";
 import ProductCard from "@/components/ProductCard";
 import { useTranslations } from "next-intl";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { MapPin } from "lucide-react";
 const getBrand = async (brandId: string) => {
   try {
     const res = await cachedServerFetch(`/shops/${brandId}`);
@@ -35,7 +42,7 @@ export default async function Brand({
   searchParams: { product?: string };
 }) {
   const { brandId } = await params;
-  const brand = await getBrand(brandId);
+  const brand = (await getBrand(brandId)) as IShop;
   const products = (await getProducts(brandId)) as IProduct[];
   const t = await getTranslations("brands");
   const categoriesMap: { [key: number]: IProduct["categories"][number] } = {};
@@ -63,6 +70,7 @@ export default async function Brand({
 
   const categoriesArray = Object.values(categoriesMap) as ICategory[];
   const { product } = await searchParams;
+  console.log("brand", brand);
   return (
     <main>
       <Header />
@@ -93,23 +101,44 @@ export default async function Brand({
                 <div className="flex items-end mb-5 sm:mb-6 md:mb-8 justify-between">
                   <div className="basis-1/3">
                     <div className="w-fit">
-                      <a
-                        href={`tel:${brand.shop_phone}`}
-                        className="flex w-full gap-1 items-center justify-between mb-2 text-forgfill-foreground bg-background px-2 py-1.5 rounded-full text-xs"
-                      >
-                        {t("branches")}
-                        <svg
-                          width="13"
-                          height="11"
-                          viewBox="0 0 13 11"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.1 5.79252C1.346 5.96051 1.676 6.0416 2 6.0416C2.33 6.0416 2.654 5.96051 2.9 5.79252C3.272 5.52607 3.5 5.1148 3.5 4.63402C3.5 5.1148 3.722 5.52607 4.1 5.79252C4.346 5.96051 4.676 6.0416 5 6.0416C5.33 6.0416 5.654 5.96051 5.9 5.79252C6.272 5.52607 6.5 5.1148 6.5 4.63402C6.5 5.1148 6.722 5.52607 7.1 5.79252C7.346 5.96051 7.676 6.0416 8.006 6.0416C8.33 6.0416 8.654 5.96051 8.9 5.79252C9.272 5.52607 9.5 5.1148 9.5 4.63402C9.5 5.1148 9.722 5.52607 10.1 5.79252C10.346 5.96051 10.676 6.0416 11 6.0416C11.33 6.0416 11.654 5.96051 11.9 5.79252C12.278 5.52607 12.5 5.1148 12.5 4.63402V4.05477L10.7 0H2.9L0.5 4.05477V4.63402C0.5 5.1148 0.722 5.52607 1.1 5.79252ZM2.3 11H5.3V8.10374H7.7V11H10.7V6.94523C10.478 6.91627 10.268 6.8178 10.1 6.69616C9.722 6.43549 9.5 6.2733 9.5 5.79252C9.5 6.2733 9.272 6.43549 8.9 6.69616C8.654 6.86993 8.33 6.94523 8.006 6.95103C7.676 6.95103 7.346 6.86993 7.1 6.69616C6.722 6.43549 6.5 6.2733 6.5 5.79252C6.5 6.2733 6.272 6.43549 5.9 6.69616C5.654 6.86993 5.33 6.94523 5 6.95103C4.676 6.95103 4.346 6.86993 4.1 6.69616C3.722 6.43549 3.5 6.2733 3.5 5.78673C3.5 6.2733 3.272 6.43549 2.9 6.69616C2.726 6.8178 2.522 6.91627 2.3 6.95103V11Z"
-                            className="fill-foreground"
-                          />
-                        </svg>
-                      </a>
+                      <Dialog>
+                        <DialogTrigger className="flex w-full gap-1 items-center justify-between mb-2 text-forgfill-foreground bg-background px-2 py-1.5 rounded-full text-xs">
+                          {t("branches")}
+                          <svg
+                            width="13"
+                            height="11"
+                            viewBox="0 0 13 11"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1.1 5.79252C1.346 5.96051 1.676 6.0416 2 6.0416C2.33 6.0416 2.654 5.96051 2.9 5.79252C3.272 5.52607 3.5 5.1148 3.5 4.63402C3.5 5.1148 3.722 5.52607 4.1 5.79252C4.346 5.96051 4.676 6.0416 5 6.0416C5.33 6.0416 5.654 5.96051 5.9 5.79252C6.272 5.52607 6.5 5.1148 6.5 4.63402C6.5 5.1148 6.722 5.52607 7.1 5.79252C7.346 5.96051 7.676 6.0416 8.006 6.0416C8.33 6.0416 8.654 5.96051 8.9 5.79252C9.272 5.52607 9.5 5.1148 9.5 4.63402C9.5 5.1148 9.722 5.52607 10.1 5.79252C10.346 5.96051 10.676 6.0416 11 6.0416C11.33 6.0416 11.654 5.96051 11.9 5.79252C12.278 5.52607 12.5 5.1148 12.5 4.63402V4.05477L10.7 0H2.9L0.5 4.05477V4.63402C0.5 5.1148 0.722 5.52607 1.1 5.79252ZM2.3 11H5.3V8.10374H7.7V11H10.7V6.94523C10.478 6.91627 10.268 6.8178 10.1 6.69616C9.722 6.43549 9.5 6.2733 9.5 5.79252C9.5 6.2733 9.272 6.43549 8.9 6.69616C8.654 6.86993 8.33 6.94523 8.006 6.95103C7.676 6.95103 7.346 6.86993 7.1 6.69616C6.722 6.43549 6.5 6.2733 6.5 5.79252C6.5 6.2733 6.272 6.43549 5.9 6.69616C5.654 6.86993 5.33 6.94523 5 6.95103C4.676 6.95103 4.346 6.86993 4.1 6.69616C3.722 6.43549 3.5 6.2733 3.5 5.78673C3.5 6.2733 3.272 6.43549 2.9 6.69616C2.726 6.8178 2.522 6.91627 2.3 6.95103V11Z"
+                              className="fill-foreground"
+                            />
+                          </svg>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader className="hidden">
+                            <DialogTitle>
+                              {t("branches")} {brand.shop_name}
+                            </DialogTitle>
+                          </DialogHeader>
+                          <ul className="mt-2 divide-y">
+                            {brand?.branch_address?.map((branch) => (
+                              <li key={branch.id}>
+                                <a
+                                  href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}
+                                  className="py-2 flex items-center justify-between"
+                                  target="_blank"
+                                >
+                                  <h3 className="h4">{branch.title}</h3>
+                                  <MapPin />
+                                </a>{" "}
+                              </li>
+                            ))}
+                          </ul>
+                        </DialogContent>
+                      </Dialog>
+
                       <a
                         href={`tel:${brand.shop_phone}`}
                         className="flex  gap-1 items-center text-forgfill-foreground bg-background w-fit px-2 py-1.5 rounded-full text-xs"

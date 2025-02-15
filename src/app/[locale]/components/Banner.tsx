@@ -50,7 +50,7 @@ export function Banner({
             <CarouselItem className="px-4" key={banner.shop_id}>
               <Link
                 href={`/brands/${banner.shop_id}`}
-                className="rounded-xl overflow-hidden relative"
+                className="rounded-xl block overflow-hidden relative"
               >
                 <Image
                   src={banner.image}

@@ -71,9 +71,9 @@ const ProductCategoryDisplay = ({
       <Carousel
         setApi={setCategoriesApi}
         opts={{
-          dragFree: false,
+          dragFree: true,
           align: "start",
-          skipSnaps: false,
+          skipSnaps: true,
         }}
         className="w-full mb-5 sm:mb-6 md:mb-8"
       >

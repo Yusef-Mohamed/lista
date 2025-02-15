@@ -32,7 +32,7 @@ async function BlogContent({ page }: { page: number }) {
             height={530}
             src={blogs[0].image}
             alt={blogs[0].title}
-            className="blog object-cover"
+            className="blog object-cover rounded-xl"
           />
           <h1 className="text-center mt-8 mb-6">{blogs[0].title}</h1>
           <p className="md:text-lg max-w-[40rem] mx-auto text-center">
@@ -46,13 +46,13 @@ async function BlogContent({ page }: { page: number }) {
           <div className="mb-4 mt-8 grid md:gap-7 gap-6 md:gap-y-10 md:grid-cols-2">
             {blogs.slice(1).map((blog, i) => (
               <Link key={blog.id || i} href={`/blog/${blog.id}`}>
-                <div className="w-full blog bg-background">
+                <div className="w-full blog">
                   <Image
                     width={400}
                     height={250}
                     src={blog.image}
                     alt={blog.title}
-                    className="blog object-cover"
+                    className="blog object-cover rounded-xl"
                   />
                 </div>
                 <h4

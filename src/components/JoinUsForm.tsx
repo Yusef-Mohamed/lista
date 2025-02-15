@@ -75,7 +75,7 @@ export function JoinUsForm() {
 
       <Input
         name="domain"
-        placeholder={text("domain")}
+        placeholder={text("brandName")}
         type="text"
         required
         disabled={isLoading}

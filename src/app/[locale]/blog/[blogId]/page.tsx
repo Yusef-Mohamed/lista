@@ -33,7 +33,7 @@ export default async function Blog() {
               height={1060}
               src={blog.image}
               alt={blog.title}
-              className="blog w-full object-cover"
+              className="blog w-full object-cover rounded-xl"
             />{" "}
           </div>
           <div className="prose md:prose prose-sm lg:prose-lg px-4 dark:prose-invert max-w-[65ch] mx-auto py-8">
