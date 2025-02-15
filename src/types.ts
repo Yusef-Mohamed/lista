@@ -30,4 +30,18 @@ export interface IShop {
 export interface ICategory {
   id: number;
   title: string;
+  image?: string;
+}
+
+export interface IProduct {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  discount_price: string | null;
+  is_recommended: "0" | "1";
+  is_hot: 0 | 1;
+  image: string;
+  categories: ICategory[];
+  created_at: string;
 }

@@ -8,8 +8,13 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
+import { Link } from "@/i18n/routing";
 
-export function Banner() {
+export function Banner({
+  banners,
+}: {
+  banners: { shop_id: number; image: string }[];
+}) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -41,15 +46,18 @@ export function Banner() {
         ]}
       >
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem className="px-4" key={index}>
-              <div className="rounded-xl overflow-hidden relative">
+          {banners.map((banner) => (
+            <CarouselItem className="px-4" key={banner.shop_id}>
+              <Link
+                href={`/brands/${banner.shop_id}`}
+                className="rounded-xl overflow-hidden relative"
+              >
                 <Image
-                  src={"/images/banner.png"}
+                  src={banner.image}
                   alt="Banner"
                   width={1400}
                   height={700}
-                  className="banner w-full"
+                  className="banner w-full object-cover"
                 />
                 <div
                   style={{
@@ -57,7 +65,7 @@ export function Banner() {
                   }}
                   className="absolute inset-0 z-10"
                 />
-              </div>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>{" "}

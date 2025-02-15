@@ -4,7 +4,6 @@ import { Brands } from "./components/Brands";
 import { NeerToYou } from "./components/NeerToYour";
 import { Categories } from "./components/Categories";
 import { cachedServerFetch } from "@/lib/serverUtils";
-
 async function getHomeData() {
   try {
     const res = await cachedServerFetch("/home-all");
@@ -17,12 +16,17 @@ async function getHomeData() {
 }
 
 export default async function Home() {
-  const data = await getHomeData();
+  const data = (await getHomeData()) as {
+    banners: {
+      shop_id: number;
+      image: string;
+    }[];
+  };
   console.log(data);
   return (
     <main>
       <Header />
-      <Banner />
+      <Banner banners={data.banners} />
       <Brands />
       <NeerToYou />
       <Categories />

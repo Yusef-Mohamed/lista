@@ -9,11 +9,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Sidebar } from "./Sidebar";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 export function Header() {
   const text = useTranslations("header");
-  const locale = useLocale();
   return (
     <header>
       <div className="flex  items-center max-lg:hidden justify-between border-b  p-4 mb-4">

@@ -78,10 +78,10 @@ const BrandsContent = () => {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {!isLoading &&
-          shops.map((shop, index) => (
+          shops.map((shop) => (
             <Link
               href={`/brands/${shop.id}`}
-              key={index}
+              key={shop.id}
               className="border rounded-[8%] overflow-hidden"
             >
               <Image
