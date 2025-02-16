@@ -4,7 +4,7 @@ import { IBlog } from "@/types";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
-const getBlogs = async (id: number = 1) => {
+const getBlogs = async (id: string) => {
   try {
     const res = await cachedServerFetch(`/blogs/${id}`);
     const data = res.data;
@@ -13,8 +13,22 @@ const getBlogs = async (id: number = 1) => {
     return undefined;
   }
 };
-export default async function Blog() {
-  const blog = (await getBlogs()) as IBlog | undefined;
+export async function generateMetadata({
+  params,
+}: {
+  params: { blogId: string };
+}) {
+  const { blogId } = await params;
+  const blog = (await getBlogs(blogId)) as IBlog | undefined;
+
+  return {
+    title: blog?.title,
+    description: blog?.description,
+  };
+}
+export default async function Blog({ params }: { params: { blogId: string } }) {
+  const { blogId } = await params;
+  const blog = (await getBlogs(blogId)) as IBlog | undefined;
   const text = await getTranslations("blog");
   return (
     <main>

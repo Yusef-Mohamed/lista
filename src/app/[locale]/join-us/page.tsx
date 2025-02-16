@@ -1,6 +1,15 @@
 import { Header } from "@/components/Header";
 import { JoinUsForm } from "@/components/JoinUsForm";
 import { getTranslations } from "next-intl/server";
+export async function generateMetadata() {
+  const t = await getTranslations("Metadata");
+
+  return {
+    title: t("joinUs.title"), // Dynamically set the title based on locale
+    description: t("joinUs.description"), // Dynamically set the description
+    keywords: t("joinUs.keywords"), // Dynamically set the keywords
+  };
+}
 export default async function JoinUs() {
   const text = await getTranslations("joinUs");
 

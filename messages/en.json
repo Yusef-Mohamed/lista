@@ -1,13 +1,13 @@
 {
   "header": {
-    "searchAboutBrand": "Search for brands",
-    "mobileMenu": "Mobile menu"
+    "searchAboutBrand": "Search for a Brand",
+    "mobileMenu": "Mobile Menu"
   },
   "common": {
     "more": "More"
   },
   "offers": {
-    "noOffersFound": "No offers currently available"
+    "noOffersFound": "No offers available at the moment"
   },
   "neerToYou": {
     "title": "Near You"
@@ -16,28 +16,29 @@
     "title": "Categories"
   },
   "sidebar": {
-    "darkMode": "Dark mode",
-    "lightMode": "Light mode",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
     "home": "Home",
     "offers": "Offers",
     "brands": "Brands",
     "blog": "Blog",
     "contact": "Contact Us",
     "joinUs": "Join Us",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "aboutUs": "About Us"
   },
   "blog": {
     "allBlogs": "All Blogs",
     "canNotFindThisBlog": "This blog could not be found.",
-    "noBlogs": "No blogs currently available"
+    "noBlogs": "No blogs available at the moment"
   },
   "contact": {
     "title": "Contact Us",
     "name": "Name",
     "phone": "Phone Number",
     "subject": "Subject",
-    "message": "Explain the subject",
-    "submit": "Submit Request",
+    "message": "Explain the Subject",
+    "submit": "Submit",
     "submitting": "Submitting...",
     "success": "Your message has been sent successfully",
     "error": "An error occurred while sending your message"
@@ -48,12 +49,13 @@
     "address": "Address",
     "phone": "Phone Number",
     "subject": "Subject",
-    "domain": "Domain name",
-    "message": "Explain the subject",
-    "submit": "Submit Request",
+    "domain": "Domain Name",
+    "message": "Explain the Subject",
+    "submit": "Submit",
     "submitting": "Submitting...",
-    "success": "Your request has been submitted successfully",
-    "error": "An error occurred while submitting your request"
+    "success": "Your request has been sent successfully",
+    "error": "An error occurred while sending your request",
+    "brandName": "Brand Name"
   },
   "brands": {
     "title": "Brands",
@@ -63,27 +65,79 @@
     "sortShops": "Sort Brands",
     "categories": "Categories",
     "rating": "Rating",
-    "anyRating": "Any rating",
+    "anyRating": "Any Rating",
     "location": "Location",
-    "hasOffer": "Has offers",
-    "sortBy": "Sort by",
+    "hasOffer": "Has Offers",
+    "sortBy": "Sort By",
     "nearest": "Nearest",
     "a_to_z": "A to Z",
-    "sortOrder": "Sort order",
+    "sortOrder": "Order",
     "asc": "Ascending",
     "desc": "Descending",
     "noBrands": "No brands in this category",
-    "1Star": "1 star",
-    "2Star": "2 stars",
-    "3Star": "3 stars",
-    "4Star": "4 stars",
-    "5Star": "5 stars",
+    "1Star": "1 Star",
+    "2Star": "2 Stars",
+    "3Star": "3 Stars",
+    "4Star": "4 Stars",
+    "5Star": "5 Stars",
     "offers": "Offers",
-    "withOffers": "With offers",
-    "withoutOffers": "Without offers",
-    "oneBranch": "One branch",
-    "twoBranches": "Two branches",
-    "nBranches": "{count} branches",
-    "canNotFindThisBrand": "This brand could not be found."
+    "withOffers": "With Offers",
+    "withoutOffers": "Without Offers",
+    "oneBranch": "One Branch",
+    "twoBranches": "Two Branches",
+    "nBranches": "{count} Branches",
+    "canNotFindThisBrand": "This brand could not be found.",
+    "egp": "EGP",
+    "branches": "Branches",
+    "phoneNumber": "Phone Number",
+    "canNotFindThisProduct": "This product could not be found.",
+    "nearestBranchToYou": "Nearest Branch to You"
+  },
+  "footer": {
+    "termsAndConditions": "Terms and Conditions",
+    "allRightsReserved": "All Rights Reserved",
+    "lista2025": "Lista 2025"
+  },
+  "Metadata": {
+    "home": {
+      "title": "Lista - Discover the Best Restaurants Near You",
+      "description": "Explore a wide variety of restaurant menus and find your favorite meals with Lista. Browse, discover, and enjoy a seamless food experience.",
+      "keywords": "restaurants, food, menus, discover, Lista, nearby, dining"
+    },
+    "joinUs": {
+      "title": "Join Us - Partner with Lista",
+      "description": "Become a part of Lista by joining as a brand partner. Submit your application and grow your business with us.",
+      "keywords": "join us, partner with Lista, brand application, business growth, Lista partnership"
+    },
+    "contactUs": {
+      "title": "Contact Us - Get in Touch with Lista",
+      "description": "Have a question or need assistance? Contact Lista's support team for inquiries, feedback, or collaboration opportunities.",
+      "keywords": "contact us, support, Lista customer service, inquiries, feedback, help"
+    },
+    "aboutUs": {
+      "title": "About Us - Learn More About Lista",
+      "description": "Discover the story behind Lista, our mission, vision, and how we help users find the best restaurants and brands near them.",
+      "keywords": "about Lista, our story, mission, vision, restaurant discovery, brand connections"
+    },
+    "termsAndConditions": {
+      "title": "Terms and Conditions - Lista's Policy",
+      "description": "Read Lista's terms and conditions to understand our policies, guidelines, and user agreements for a smooth experience.",
+      "keywords": "terms and conditions, user policy, guidelines, Lista agreement, service terms"
+    },
+    "offers": {
+      "title": "Latest Offers - Best Deals and Discounts on Lista",
+      "description": "Explore the best offers and discounts from top brands and restaurants on Lista. Find deals that suit your taste and budget.",
+      "keywords": "offers, discounts, best deals, restaurant promotions, brand sales, Lista deals"
+    },
+    "brands": {
+      "title": "Browse Brands - Find the Best Restaurants and Stores",
+      "description": "Search and filter through a variety of brands and restaurants on Lista. Use sorting and filters to find the perfect match for your needs.",
+      "keywords": "brands, restaurants, stores, search brands, filter brands, find restaurants, Lista brands"
+    },
+    "blog": {
+      "title": "Blogs - Latest Insights & Tips from Lista",
+      "description": "Stay updated with the latest news, insights, and tips about restaurants, brands, and lifestyle on Lista's blog.",
+      "keywords": "blogs, articles, restaurant tips, brand insights, food trends, Lista blog, latest updates"
+    }
   }
 }

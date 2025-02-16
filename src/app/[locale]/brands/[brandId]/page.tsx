@@ -14,6 +14,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MapPin } from "lucide-react";
+export async function generateMetadata({
+  params,
+}: {
+  params: { brandId: string };
+}) {
+  const { brandId } = await params;
+  const brand = (await getBrand(brandId)) as IShop | undefined;
+
+  return {
+    title: brand?.shop_name,
+    description: brand?.shop_description,
+  };
+}
 const getBrand = async (brandId: string) => {
   try {
     const res = await cachedServerFetch(`/shops/${brandId}`);
@@ -70,7 +83,6 @@ export default async function Brand({
 
   const categoriesArray = Object.values(categoriesMap) as ICategory[];
   const { product } = await searchParams;
-  console.log("brand", brand);
   return (
     <main>
       <Header />
@@ -139,23 +151,35 @@ export default async function Brand({
                         </DialogContent>
                       </Dialog>
 
-                      <a
-                        href={`tel:${brand.shop_phone}`}
-                        className="flex  gap-1 items-center text-forgfill-foreground bg-background w-fit px-2 py-1.5 rounded-full text-xs"
-                      >
-                        {t("phoneNumber")}
-                        <svg
-                          width="11"
-                          height="11"
-                          viewBox="0 0 11 11"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.458265 0.916672H4.39077L5.07231 3.98292L4.21981 4.83542C4.72105 5.61552 5.3843 6.27861 6.16452 6.77967L7.01702 5.92763L10.0833 6.60917V10.5417H9.62493C7.8605 10.5447 6.13307 10.0358 4.65202 9.07684C3.55991 8.37007 2.62987 7.44003 1.9231 6.34792C0.964092 4.86686 0.455257 3.13944 0.458265 1.37501V0.916672Z"
-                            className="fill-foreground"
-                          />
-                        </svg>
-                      </a>
+                      <Dialog>
+                        <DialogTrigger className="flex gap-1 items-center text-forgfill-foreground bg-background w-fit px-2 py-1.5 rounded-full text-xs">
+                          {t("phoneNumber")}
+                          <svg
+                            width="11"
+                            height="11"
+                            viewBox="0 0 11 11"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0.458265 0.916672H4.39077L5.07231 3.98292L4.21981 4.83542C4.72105 5.61552 5.3843 6.27861 6.16452 6.77967L7.01702 5.92763L10.0833 6.60917V10.5417H9.62493C7.8605 10.5447 6.13307 10.0358 4.65202 9.07684C3.55991 8.37007 2.62987 7.44003 1.9231 6.34792C0.964092 4.86686 0.455257 3.13944 0.458265 1.37501V0.916672Z"
+                              className="fill-foreground"
+                            />
+                          </svg>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader className="hidden">
+                            <DialogTitle>{t("phoneNumber")}</DialogTitle>
+                          </DialogHeader>
+                          <div className="mt-4">
+                            <a
+                              href={`tel:${brand.shop_phone}`}
+                              className="text-lg font-semibold hover:underline"
+                            >
+                              {brand.shop_phone}
+                            </a>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                   <Image

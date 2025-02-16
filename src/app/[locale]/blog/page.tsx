@@ -7,7 +7,15 @@ import { Pagination } from "@/components/Pagination";
 import { IBlog } from "@/types";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+export async function generateMetadata() {
+  const t = await getTranslations("Metadata");
 
+  return {
+    title: t("blog.title"), // Dynamically set the title based on locale
+    description: t("blog.description"), // Dynamically set the description
+    keywords: t("blog.keywords"), // Dynamically set the keywords
+  };
+}
 // Move the blogs fetching logic to a separate component
 async function BlogContent({ page }: { page: number }) {
   const text = await getTranslations("blog");

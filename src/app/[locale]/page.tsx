@@ -5,6 +5,7 @@ import { Categories } from "./components/Categories";
 import { cachedServerFetch } from "@/lib/serverUtils";
 import { Link } from "@/i18n/routing";
 import { NeerToYou } from "./components/NeerToYour";
+import { getTranslations } from "next-intl/server";
 async function getHomeData() {
   try {
     const res = await cachedServerFetch("/home-all");
@@ -15,7 +16,15 @@ async function getHomeData() {
     return undefined;
   }
 }
+export async function generateMetadata() {
+  const t = await getTranslations("Metadata");
 
+  return {
+    title: t("home.title"), // Dynamically set the title based on locale
+    description: t("home.description"), // Dynamically set the description
+    keywords: t("home.keywords"), // Dynamically set the keywords
+  };
+}
 export default async function Home() {
   const data = (await getHomeData()) as {
     banners: {
@@ -41,7 +50,7 @@ export default async function Home() {
           <Link
             href={`/brands?shop_categories=${category.id}`}
             key={category.id}
-            className="max-sm:text-xs max-md:text-sm max-sm:px-2 max-sm:py-1 max-md:px-2.5 max-md:py-1.5 px-3 py-2 border rounded-full border-primary/50 flex-wrap"
+            className="max-sm:text-xs sm:text-sm max-sm:px-2 max-sm:py-1 sm:px-2.5 sm:py-1.5 text-center border rounded-full border-primary/50 flex-wrap"
           >
             {category.title}
           </Link>

@@ -9,6 +9,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { LocationProvider } from "@/components/LocationContext";
+import Footer from "@/components/Footer";
 
 const alexandria = Alexandria({
   subsets: ["latin", "arabic"],
@@ -59,6 +60,7 @@ export default async function RootLayout({
                   {children}
                 </div>
               </div>
+              <Footer />
               <Toaster position="top-center" />
             </ThemeProvider>
           </LocationProvider>

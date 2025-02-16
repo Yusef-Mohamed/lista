@@ -81,9 +81,7 @@ const ProductCategoryDisplay = ({
           {productsByCategory["offers"].length > 0 && (
             <CarouselItem className="basis-1/3 sm:basis-1/4 md:basis-1/5 px-4">
               <button
-                onClick={() =>
-                  handleCategoryClick("offers", categoryIds.length - 1)
-                }
+                onClick={() => handleCategoryClick("offers", 0)}
                 className="w-full"
               >
                 <div

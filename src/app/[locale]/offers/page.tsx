@@ -7,6 +7,15 @@ import { Header } from "@/components/Header";
 import { getTranslations } from "next-intl/server";
 import { IShop } from "@/types";
 import { Link } from "@/i18n/routing";
+export async function generateMetadata() {
+  const t = await getTranslations("Metadata");
+
+  return {
+    title: t("offers.title"), // Dynamically set the title based on locale
+    description: t("offers.description"), // Dynamically set the description
+    keywords: t("offers.keywords"), // Dynamically set the keywords
+  };
+}
 async function OffersContent({ page }: { page: number }) {
   const { brands, totalPages } = await getBrands(page);
   const t = await getTranslations("offers");

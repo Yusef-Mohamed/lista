@@ -9,6 +9,7 @@ import {
   Languages,
   Users,
   Mail,
+  UserIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type React from "react";
@@ -39,6 +40,11 @@ const navigationItems = [
     icon: ShoppingBagIcon,
     label: "brands",
     href: "/brands",
+  },
+  {
+    label: "aboutUs",
+    href: "/about-us",
+    icon: UserIcon,
   },
   {
     icon: NewspaperIcon,
