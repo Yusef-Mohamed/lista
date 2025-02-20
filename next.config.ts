@@ -11,7 +11,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["lista.almesery.xyz"],
+    domains: ["lista.almesery.xyz", "admin.lista.com.co"],
   },
 };
 

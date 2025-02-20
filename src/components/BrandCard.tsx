@@ -37,8 +37,8 @@ const BrandCard = ({ shop }: { shop: IShop }) => {
       let nearestDistance = getDistance(
         location.latitude,
         location.longitude,
-        parseFloat(nearestBranch.lat),
-        parseFloat(nearestBranch.lng)
+        parseFloat(nearestBranch?.lat),
+        parseFloat(nearestBranch?.lng)
       );
       for (const branch of branches) {
         const distance = getDistance(
@@ -82,13 +82,15 @@ const BrandCard = ({ shop }: { shop: IShop }) => {
                   count: shop.branches,
                 })}
           </p>
-          <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${nearestBranch.lat},${nearestBranch.lng}`}
-            target="_blank"
-            className="text-xs hover:underline py-2 ps-4 text-foreground/50"
-          >
-            {t("nearestBranchToYou")} {nearestBranch.title}
-          </a>
+          {nearestBranch && (
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${nearestBranch?.lat},${nearestBranch?.lng}`}
+              target="_blank"
+              className="text-xs hover:underline py-2 ps-4 text-foreground/50"
+            >
+              {t("nearestBranchToYou")} {nearestBranch?.title}
+            </a>
+          )}
         </div>
         <div className="flex gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
           {shop.rate}{" "}
