@@ -1,5 +1,6 @@
 "use client";
 import useCustomSearchParams from "@/hooks/useSearchParams";
+import { cn } from "@/lib/utils";
 import { IProduct } from "@/types";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -14,6 +15,30 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       key={product.id}
       className="relative"
     >
+      {product.is_hot === 1 && (
+        <div
+          style={{
+            background: "linear-gradient(180deg, #D30006 0%, #ED1C25 100%)",
+          }}
+          className={cn(
+            "sm:w-16 w-12 z-10 absolute top-0  right-0 sm:text-xl text-base text-white aspect-square flex rounded-full items-center justify-center font-bold"
+          )}
+        >
+          <span>HOT</span>
+        </div>
+      )}{" "}
+      {Number(product.is_recommended) === 1 && (
+        <div
+          style={{
+            background: "linear-gradient(180deg, #FF8B16 0%, #FFB200 100%)",
+          }}
+          className={cn(
+            "sm:w-16 w-12 z-10 absolute top-0  right-0 sm:text-xl text-base text-white aspect-square flex rounded-full items-center justify-center font-bold"
+          )}
+        >
+          <span>NEW</span>
+        </div>
+      )}
       <div
         style={{
           height: "calc(100% - 2rem)",
@@ -28,6 +53,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
           width={400}
           height={400}
         />
+
         <div className="space-y-2">
           <h5 className="line-clamp-2 text-lg ">{product.name}</h5>
           <div className="flex items-center gap-2">

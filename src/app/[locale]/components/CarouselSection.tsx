@@ -70,46 +70,48 @@ export function CarouselSection({
               </CarouselItem>
             ))}
           {!isLoading &&
-            items.map((item, index) => (
-              <CarouselItem
-                className={cn(
-                  "md:px-2 px-1 md:basis-[40%]  basis-[65%] sm:basis-[60%] xl:basis-1/3"
-                )}
-                key={index}
-              >
-                {item.link ? (
-                  <Link href={item.link}>
+            items.map((item, index) =>
+              item.image ? (
+                <CarouselItem
+                  className={cn(
+                    "md:px-2 px-1 md:basis-[40%]  basis-[65%] sm:basis-[60%] xl:basis-1/3"
+                  )}
+                  key={index}
+                >
+                  {item.link ? (
+                    <Link href={item.link}>
+                      <Image
+                        src={item.image}
+                        alt="Brand"
+                        width={800}
+                        height={533}
+                        className={cn(
+                          "w-full transition-all object-cover h-auto rounded-xl",
+                          {
+                            "max-lg:scale-90": current !== index + 1,
+                          },
+                          itemClassName
+                        )}
+                      />
+                    </Link>
+                  ) : (
                     <Image
                       src={item.image}
                       alt="Brand"
                       width={800}
                       height={533}
                       className={cn(
-                        "w-full transition-all object-cover h-auto rounded-xl",
+                        "w-full transition-all rounded-xl",
                         {
                           "max-lg:scale-90": current !== index + 1,
                         },
                         itemClassName
                       )}
                     />
-                  </Link>
-                ) : (
-                  <Image
-                    src={item.image}
-                    alt="Brand"
-                    width={800}
-                    height={533}
-                    className={cn(
-                      "w-full transition-all rounded-xl",
-                      {
-                        "max-lg:scale-90": current !== index + 1,
-                      },
-                      itemClassName
-                    )}
-                  />
-                )}
-              </CarouselItem>
-            ))}
+                  )}
+                </CarouselItem>
+              ) : null
+            )}
         </CarouselContent>
       </Carousel>
     </section>

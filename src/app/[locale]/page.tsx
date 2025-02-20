@@ -59,7 +59,8 @@ export default async function Home() {
       </div>
       <Brands brands={data.brands} />
       <NeerToYou />
-      <Categories categories={data.shop_categories} />
+      {/* <Categories categories={data.shop_categories.filter((e) => e.image)} /> */}
+      <Categories categories={data.shop_categories.filter((e) => e.image)} />
     </main>
   );
 }

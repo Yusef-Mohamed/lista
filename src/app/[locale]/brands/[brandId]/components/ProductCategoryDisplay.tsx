@@ -65,7 +65,12 @@ const ProductCategoryDisplay = ({
     setSelectedCategory(categoryId);
     productsApi?.scrollTo(index);
   };
-
+  const selectedCategoryText = useMemo(() => {
+    return selectedCategory === "offers"
+      ? text("offers")
+      : categoriesArray.find((e) => e.id.toString() === selectedCategory)
+          ?.title || "";
+  }, [text, selectedCategory, categoriesArray]);
   return (
     <div className="w-full overflow-hidden">
       <Carousel
@@ -154,6 +159,7 @@ const ProductCategoryDisplay = ({
           ))}
         </CarouselContent>
       </Carousel>
+      <h2 className="h3 lg:mb-8 mb-6">{selectedCategoryText}</h2>
 
       <Carousel
         setApi={setProductsApi}

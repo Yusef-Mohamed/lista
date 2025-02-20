@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MapPin } from "lucide-react";
+import { cn } from "@/lib/utils";
 export async function generateMetadata({
   params,
 }: {
@@ -248,7 +249,7 @@ const DisplayProduct = ({
 
   return (
     <>
-      <div className="sm:max-w-80 max-w-60 mx-auto mb-8">
+      <div className="sm:max-w-80 max-w-60 mx-auto mb-8 relative">
         <Image
           src={thisProduct.image}
           alt={thisProduct.name}
@@ -256,6 +257,30 @@ const DisplayProduct = ({
           width={400}
           height={400}
         />
+        {thisProduct.is_hot === 1 && (
+          <div
+            style={{
+              background: "linear-gradient(180deg, #D30006 0%, #ED1C25 100%)",
+            }}
+            className={cn(
+              "sm:w-16 w-12 z-10 absolute top-0  right-0 sm:text-xl text-base text-white aspect-square flex rounded-full items-center justify-center font-bold"
+            )}
+          >
+            <span>HOT</span>
+          </div>
+        )}{" "}
+        {Number(thisProduct.is_recommended) === 1 && (
+          <div
+            style={{
+              background: "linear-gradient(180deg, #FF8B16 0%, #FFB200 100%)",
+            }}
+            className={cn(
+              "sm:w-16 w-12 z-10 absolute top-0  right-0 sm:text-xl text-base text-white aspect-square flex rounded-full items-center justify-center font-bold"
+            )}
+          >
+            <span>NEW</span>
+          </div>
+        )}
         <h1 className="h3 mb-1">{thisProduct.name}</h1>
         <h2 className="h4 mb-6">{thisProduct.description}</h2>
         <div className="font-bold flex items-center justify-center mx-auto w-fit px-4 py-2 rounded-md bg-background">
