@@ -91,7 +91,8 @@
     "branches": "الفروع",
     "phoneNumber": "رقم الهاتف",
     "canNotFindThisProduct": "لم يتم العثور علي هذا المنتج.",
-    "nearestBranchToYou": "الفرع الأقرب إليك"
+    "nearestBranchToYou": "الفرع الأقرب إليك",
+    "similarProducts": "منتجات مشابهة"
   },
   "footer": {
     "termsAndConditions": "الشروط والأحكام",

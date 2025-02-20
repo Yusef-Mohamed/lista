@@ -39,7 +39,10 @@ export function NeerToYou() {
       items={
         isLoading
           ? []
-          : brands.map((brand) => ({ image: brand.background_image }))
+          : brands.map((brand) => ({
+              image: brand.background_image,
+              link: `/brands/${brand.id}`,
+            }))
       }
       isLoading={isLoading}
       classNames={{

@@ -91,7 +91,8 @@
     "branches": "Branches",
     "phoneNumber": "Phone Number",
     "canNotFindThisProduct": "This product could not be found.",
-    "nearestBranchToYou": "Nearest Branch to You"
+    "nearestBranchToYou": "Nearest Branch to You",
+    "similarProducts": "Similar Products"
   },
   "footer": {
     "termsAndConditions": "Terms and Conditions",

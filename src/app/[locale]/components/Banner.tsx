@@ -55,8 +55,8 @@ export function Banner({
                 <Image
                   src={banner.image}
                   alt="Banner"
-                  width={1400}
-                  height={700}
+                  width={2000}
+                  height={2000}
                   className="banner w-full object-cover"
                 />
                 <div

@@ -265,6 +265,7 @@ const DisplayProduct = ({
           {t("egp")}
         </div>
       </div>
+      <h2 className="h3 lg:mb-8 mb-6">{t("similarProducts")}</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {recommendedProductsArray.map((product) =>
           product ? <ProductCard product={product} key={product.id} /> : null

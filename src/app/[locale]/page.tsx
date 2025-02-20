@@ -41,6 +41,7 @@ export default async function Home() {
       image: string;
     }[];
   };
+  console.log(data);
   return (
     <main>
       <Header />
