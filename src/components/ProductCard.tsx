@@ -21,7 +21,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
             background: "linear-gradient(180deg, #D30006 0%, #ED1C25 100%)",
           }}
           className={cn(
-            "sm:w-16 w-12 z-10 absolute top-0  right-0 sm:text-xl text-base text-white aspect-square flex rounded-full items-center justify-center font-bold"
+            "sm:w-12 w-10 z-10 absolute top-2  right-2 sm:text-base text-sm text-white aspect-square flex rounded-full items-center justify-center font-bold"
           )}
         >
           <span>HOT</span>
