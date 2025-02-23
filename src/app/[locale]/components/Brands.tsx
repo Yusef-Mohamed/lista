@@ -2,14 +2,15 @@ import { useTranslations } from "next-intl";
 import { CarouselSection } from "./CarouselSection";
 export function Brands({
   brands,
+  loading,
 }: {
   brands: {
     shop_id: number;
     image: string;
   }[];
+  loading?: boolean;
 }) {
   const text = useTranslations("brands");
-
   return (
     <CarouselSection
       title={text("title")}
@@ -21,6 +22,7 @@ export function Brands({
       classNames={{
         itemClassName: "brand",
       }}
+      isLoading={loading}
     />
   );
 }

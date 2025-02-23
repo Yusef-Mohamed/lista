@@ -2,8 +2,10 @@ import { useTranslations } from "next-intl";
 import { CarouselSection } from "./CarouselSection";
 export function Categories({
   categories,
+  loading,
 }: {
   categories: { id: number; title: string; image: string }[];
+  loading?: boolean;
 }) {
   const text = useTranslations("categories");
 
@@ -17,6 +19,7 @@ export function Categories({
       classNames={{
         itemClassName: "category",
       }}
+      isLoading={loading}
     />
   );
 }

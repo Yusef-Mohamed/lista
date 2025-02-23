@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import { IShop } from "@/types";
 import { useLocation } from "@/components/LocationContext";
 import { createClientAxiosInstance } from "@/lib/utils";
-export function NeerToYou() {
+export function NeerToYou({ loading }: { loading?: boolean }) {
   const text = useTranslations("neerToYou");
   const [isLoading, setIsLoading] = useState(true);
   const [brands, setBrands] = useState<IShop[]>([]);
   const { location, status } = useLocation();
   useEffect(() => {
     const getBrands = async () => {
+      if (loading) return;
       setIsLoading(true);
       try {
         const axiosInstance = await createClientAxiosInstance();
@@ -31,7 +32,7 @@ export function NeerToYou() {
     if (status !== "prompt") {
       getBrands();
     }
-  }, [status, location]);
+  }, [status, location, loading]);
   return (
     <CarouselSection
       title={text("title")}
@@ -44,7 +45,7 @@ export function NeerToYou() {
               link: `/brands/${brand.id}`,
             }))
       }
-      isLoading={isLoading}
+      isLoading={isLoading || loading}
       classNames={{
         itemClassName: "brand",
       }}

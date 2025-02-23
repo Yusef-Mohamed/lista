@@ -184,11 +184,11 @@ export default async function Brand({
                     </div>
                   </div>
                   <Image
-                    src={brand.brand_image}
+                    src={brand.logo_white}
                     alt={brand.shop_name}
                     width={800}
                     height={800}
-                    className="w-full sm:max-w-64 max-w-32 basis-1/3 mx-auto transition-all object-cover aspect-square"
+                    className="w-full sm:max-w-64 max-w-32 basis-1/3 mx-auto transition-all object-contain aspect-square"
                   />
                   <div className="basis-1/3 flex items-center justify-end">
                     <div className="flex  gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
