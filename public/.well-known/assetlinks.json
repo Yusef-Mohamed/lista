@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lista.lista",
+      "sha256_cert_fingerprints": [
+        "16:D4:E1:1B:F5:D4:BB:40:7B:03:DE:84:79:BB:65:25:5E:A5:D8:6D:10:93:82:35:2C:0D:F8:66:36:A5:E5:58"
+      ]
+    }
+  }
+]
