@@ -13,6 +13,24 @@ const nextConfig = {
   images: {
     domains: ["lista.almesery.xyz", "admin.lista.com.co"],
   },
+  // Add headers configuration for asset links
+  async headers() {
+    return [
+      {
+        source: "/.well-known/:path*",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/json",
+          },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
