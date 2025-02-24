@@ -129,21 +129,29 @@ export default async function Brand({
                             />
                           </svg>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="max-w-4xl">
                           <DialogHeader className="hidden">
                             <DialogTitle>
                               {t("branches")} {brand.shop_name}
                             </DialogTitle>
                           </DialogHeader>
                           <ul className="mt-2 divide-y">
-                            {brand?.branch_address?.map((branch) => (
+                            {[
+                              {
+                                id: 6000,
+                                title: brand?.address,
+                                lat: brand?.address_lat,
+                                lng: brand?.address_lng,
+                              },
+                              ...brand?.branch_address,
+                            ]?.map((branch) => (
                               <li key={branch.id}>
                                 <a
                                   href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}
                                   className="py-2 flex items-center justify-between"
                                   target="_blank"
                                 >
-                                  <h3 className="h4">{branch.title}</h3>
+                                  <h3 className="h5">{branch.title}</h3>
                                   <MapPin />
                                 </a>{" "}
                               </li>
@@ -191,17 +199,19 @@ export default async function Brand({
                     className="w-full sm:max-w-64 max-w-32 basis-1/3 mx-auto transition-all object-contain aspect-square"
                   />
                   <div className="basis-1/3 flex items-center justify-end">
-                    <div className="flex  gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
-                      {brand.rate}{" "}
-                      <svg
-                        width={10}
-                        height={10}
-                        viewBox="0 0 10 10"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M1.9125 9.625L2.725 6.40521L0 4.23958L3.6 3.95312L5 0.916664L6.4 3.95312L10 4.23958L7.275 6.40521L8.0875 9.625L5 7.91771L1.9125 9.625Z" />
-                      </svg>
-                    </div>
+                    {brand.rate ? (
+                      <div className="flex  gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
+                        {brand.rate}{" "}
+                        <svg
+                          width={10}
+                          height={10}
+                          viewBox="0 0 10 10"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M1.9125 9.625L2.725 6.40521L0 4.23958L3.6 3.95312L5 0.916664L6.4 3.95312L10 4.23958L7.275 6.40521L8.0875 9.625L5 7.91771L1.9125 9.625Z" />
+                        </svg>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <ProductCategoryDisplay

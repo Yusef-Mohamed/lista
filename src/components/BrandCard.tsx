@@ -32,7 +32,15 @@ const BrandCard = ({ shop }: { shop: IShop }) => {
   const { location } = useLocation();
   const nearestBranch = useMemo(() => {
     if (location) {
-      const branches = shop.branch_address;
+      const branches = [
+        ...shop.branch_address,
+        {
+          id: 6000,
+          title: shop.address,
+          lat: shop.address_lat,
+          lng: shop.address_lng,
+        },
+      ];
       let nearestBranch = branches[0];
       let nearestDistance = getDistance(
         location.latitude,
@@ -74,12 +82,12 @@ const BrandCard = ({ shop }: { shop: IShop }) => {
             <h3 className="text-2xl">{shop.shop_name}</h3>
           </Link>
           <p className="text-xs pt-2 ps-4 text-foreground/50">
-            {shop.branches === 1
+            {shop.branches + 1 === 1
               ? t("oneBranch")
-              : shop.branches === 2
+              : shop.branches + 1 === 2
               ? t("twoBranches")
               : t("nBranches", {
-                  count: shop.branches,
+                  count: shop.branches + 1,
                 })}
           </p>
           {nearestBranch && (
@@ -92,17 +100,19 @@ const BrandCard = ({ shop }: { shop: IShop }) => {
             </a>
           )}
         </div>
-        <div className="flex gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
-          {shop.rate}{" "}
-          <svg
-            width={10}
-            height={10}
-            viewBox="0 0 10 10"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M1.9125 9.625L2.725 6.40521L0 4.23958L3.6 3.95312L5 0.916664L6.4 3.95312L10 4.23958L7.275 6.40521L8.0875 9.625L5 7.91771L1.9125 9.625Z" />
-          </svg>
-        </div>
+        {shop.rate ? (
+          <div className="flex gap-1 items-center fill-background text-background bg-gold w-fit px-2 py-1.5 rounded-full text-xs">
+            {shop.rate}{" "}
+            <svg
+              width={10}
+              height={10}
+              viewBox="0 0 10 10"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M1.9125 9.625L2.725 6.40521L0 4.23958L3.6 3.95312L5 0.916664L6.4 3.95312L10 4.23958L7.275 6.40521L8.0875 9.625L5 7.91771L1.9125 9.625Z" />
+            </svg>
+          </div>
+        ) : null}
       </div>
     </div>
   );
