@@ -47,7 +47,7 @@ export async function cachedServerFetch<T = any>(
         body: method === "POST" ? JSON.stringify(body) : undefined,
         next: {
           tags: [`api:${url}:${locale}:${JSON.stringify(body)}`],
-          revalidate: 0,
+          revalidate: 1,
         },
       }
     );
