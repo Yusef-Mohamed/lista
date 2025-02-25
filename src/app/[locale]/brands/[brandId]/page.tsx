@@ -64,7 +64,7 @@ export default async function Brand({
   if (products) {
     productsByCategory["offers"] = [];
     for (const product of products) {
-      if (product.discount_price) {
+      if (product.show_in_offer === 1) {
         productsByCategory["offers"].push(product);
       }
       if (product?.categories) {

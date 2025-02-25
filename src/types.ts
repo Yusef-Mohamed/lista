@@ -46,6 +46,7 @@ export interface IProduct {
   price: string;
   discount_price: string | null;
   is_recommended: "0" | "1";
+  show_in_offer: 0 | 1;
   is_hot: 0 | 1;
   image: string;
   categories: ICategory[];
