@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -7,64 +7,155 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { ICategory, IProduct } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, createClientAxiosInstance } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import ProductCard from "@/components/ProductCard";
+import ProductCard, { ProductSkeletonCard } from "@/components/ProductCard";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductCategoryDisplayProps {
   categoriesArray: ICategory[];
-  productsByCategory: { [key: string]: IProduct[] };
+  shop_id: string;
+  hasOffer: boolean;
 }
 
 const ProductCategoryDisplay = ({
   categoriesArray,
-  productsByCategory,
+  shop_id,
+  hasOffer,
 }: ProductCategoryDisplayProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("offers");
   const [categoriesApi, setCategoriesApi] = useState<CarouselApi>();
   const [productsApi, setProductsApi] = useState<CarouselApi>();
+  const [productsByCategory, setProductsByCategory] = useState<{
+    [key: string]: {
+      isLoading: boolean;
+      totalPages: number;
+      currentPage: number;
+      data: IProduct[];
+      hasError: boolean;
+    };
+  }>({});
   const text = useTranslations("brands");
   const categoryIds = useMemo(() => {
-    return productsByCategory["offers"].length
+    return hasOffer
       ? ["offers", ...categoriesArray.map((cat) => cat.id.toString())]
       : [...categoriesArray.map((cat) => cat.id.toString())];
-  }, [categoriesArray, productsByCategory]);
+  }, [categoriesArray, hasOffer]);
+
   useEffect(() => {
     if (!productsApi || !categoriesApi) return;
 
     const onProductSelect = () => {
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
       const index = productsApi.selectedScrollSnap();
       const categoryId = categoryIds[index];
       setSelectedCategory(categoryId);
       categoriesApi.scrollTo(index);
+
+      if (
+        !productsByCategory[categoryId]?.data &&
+        !productsByCategory[categoryId]?.hasError
+      ) {
+        fetchProductsForCategory(categoryId, 1); // Start with page 1
+      }
     };
+
     productsApi.on("select", onProductSelect);
     onProductSelect(); // Initial sync
+
     return () => {
       productsApi.off("select", onProductSelect);
     };
-  }, [productsApi, categoriesApi, categoryIds]);
+  }, [productsApi, categoriesApi, categoryIds, productsByCategory]);
 
-  const categoryProducts = useMemo(() => {
-    return productsByCategory["offers"].length === 0
-      ? [
-          ...categoriesArray.map(
-            (cat) => productsByCategory[cat.id.toString()] || []
-          ),
-        ]
-      : [
-          productsByCategory["offers"],
-          ...categoriesArray.map(
-            (cat) => productsByCategory[cat.id.toString()] || []
-          ),
-        ];
-  }, []);
+  const fetchProductsForCategory = async (categoryId: string, page: number) => {
+    if (productsByCategory[categoryId]?.isLoading) return;
+
+    try {
+      setProductsByCategory((prev) => ({
+        ...prev,
+        [categoryId]: prev[categoryId]
+          ? {
+              ...prev[categoryId],
+              isLoading: true,
+            }
+          : {
+              isLoading: true,
+              totalPages: 10, // Static total pages for now
+              currentPage: page,
+              data: [],
+              hasError: false,
+            },
+      }));
+
+      const axiosInstance = await createClientAxiosInstance();
+      const res = await axiosInstance.get(
+        `/shop-products/${shop_id}?page=${page}${
+          categoryId !== "offers"
+            ? `&product_category_id=${categoryId}`
+            : "&has_offer=1"
+        }&perPage=16`
+      );
+
+      const { data, totalPages } = res.data;
+
+      setProductsByCategory((prev) => ({
+        ...prev,
+        [categoryId]: {
+          isLoading: false,
+          totalPages: totalPages || 1, // Static total pages for now
+          currentPage: page,
+          data: data, // Replace old data with new page's products
+          hasError: false,
+        },
+      }));
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setProductsByCategory((prev) => ({
+        ...prev,
+        [categoryId]: {
+          ...prev[categoryId],
+          isLoading: false,
+          hasError: true,
+        },
+      }));
+    }
+  };
 
   const handleCategoryClick = (categoryId: string, index: number) => {
     setSelectedCategory(categoryId);
     productsApi?.scrollTo(index);
+
+    if (
+      !productsByCategory[categoryId]?.data &&
+      !productsByCategory[categoryId]?.hasError
+    ) {
+      fetchProductsForCategory(categoryId, 1); // Start with page 1
+    }
   };
+  const topRef = useRef<HTMLHeadingElement | null>(null);
+
+  const handlePageChange = (categoryId: string, direction: "prev" | "next") => {
+    const currentCategory = productsByCategory[categoryId];
+    if (!currentCategory) return;
+
+    const newPage =
+      direction === "prev"
+        ? currentCategory.currentPage - 1
+        : currentCategory.currentPage + 1;
+
+    if (newPage < 1 || newPage > currentCategory.totalPages) return;
+
+    fetchProductsForCategory(categoryId, newPage);
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const selectedCategoryText = useMemo(() => {
     return selectedCategory === "offers"
       ? text("offers")
@@ -83,83 +174,64 @@ const ProductCategoryDisplay = ({
         className="w-full mb-5 sm:mb-6 md:mb-8"
       >
         <CarouselContent>
-          {productsByCategory["offers"].length > 0 && (
-            <CarouselItem className="basis-1/3 sm:basis-1/4 md:basis-1/5 px-4">
-              <button
-                onClick={() => handleCategoryClick("offers", 0)}
-                className="w-full"
-              >
-                <div
-                  className={cn(
-                    "w-full transition-all flex items-center justify-center aspect-square  rounded-3xl",
-                    {
-                      "bg-foreground": selectedCategory === "offers",
-                      "bg-background": selectedCategory !== "offers",
-                    }
-                  )}
-                >
-                  <Image
-                    src={"/images/offer.png"}
-                    alt="offer"
-                    width={100}
-                    height={100}
-                    className="w-[70%]"
-                  />
-                </div>
-                <p
-                  className={cn("mt-2 transition-all", {
-                    "text-primary": selectedCategory === "offers",
-                  })}
-                >
-                  {text("offers")}
-                </p>
-              </button>
-            </CarouselItem>
-          )}
-
-          {categoriesArray.map((category, index) => (
+          {categoryIds.map((categoryId, index) => (
             <CarouselItem
-              key={category.id}
+              key={categoryId}
               className="basis-1/3 sm:basis-1/4 md:basis-1/5 px-4"
             >
               <button
-                onClick={() =>
-                  handleCategoryClick(category.id.toString(), index + 1)
-                }
+                onClick={() => handleCategoryClick(categoryId, index)}
                 className="w-full"
               >
                 <div
                   className={cn(
-                    "w-full flex transition-all items-center justify-center aspect-square  rounded-3xl",
+                    "w-full transition-all flex items-center justify-center aspect-square rounded-3xl",
                     {
-                      "bg-foreground":
-                        selectedCategory === category.id.toString(),
-                      "bg-background":
-                        selectedCategory !== category.id.toString(),
+                      "bg-foreground": selectedCategory === categoryId,
+                      "bg-background": selectedCategory !== categoryId,
                     }
                   )}
                 >
-                  <Image
-                    src={category.image || ""}
-                    alt="offer"
-                    width={100}
-                    height={100}
-                    className="w-[70%]"
-                  />
+                  {(categoryId === "offers"
+                    ? "/images/offer.png"
+                    : categoriesArray.find(
+                        (cat) => cat.id.toString() === categoryId
+                      )?.image || "") && (
+                    <Image
+                      src={
+                        categoryId === "offers"
+                          ? "/images/offer.png"
+                          : categoriesArray.find(
+                              (cat) => cat.id.toString() === categoryId
+                            )?.image || ""
+                      }
+                      alt="category"
+                      width={100}
+                      height={100}
+                      className="w-[70%]"
+                    />
+                  )}
                 </div>
                 <p
                   className={cn("mt-2 transition-all", {
-                    "text-primary": selectedCategory === category.id.toString(),
+                    "text-primary": selectedCategory === categoryId,
                   })}
                 >
-                  {category.title}
+                  {categoryId === "offers"
+                    ? text("offers")
+                    : categoriesArray.find(
+                        (cat) => cat.id.toString() === categoryId
+                      )?.title || ""}
                 </p>
               </button>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      <h2 className="h3 lg:mb-8 mb-6">{selectedCategoryText}</h2>
+
+      <h2 ref={topRef} className="h3 lg:mb-8 mb-6">
+        {selectedCategoryText}
+      </h2>
 
       <Carousel
         setApi={setProductsApi}
@@ -172,13 +244,62 @@ const ProductCategoryDisplay = ({
         className="w-full"
       >
         <CarouselContent>
-          {categoryProducts.map((products, index) => (
+          {categoryIds.map((categoryId, index) => (
             <CarouselItem key={index} className="w-full">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {products.map((product) => (
-                  <ProductCard product={product} key={product.id} />
-                ))}
+                {productsByCategory[categoryId]?.isLoading &&
+                  Array.from({ length: 8 }).map((_, ind) => (
+                    <ProductSkeletonCard key={ind} />
+                  ))}
+                {!productsByCategory[categoryId]?.isLoading &&
+                  productsByCategory[categoryId]?.hasError && (
+                    <div className="col-span-full flex justify-center items-center py-8 text-red-500">
+                      <span>{text("someThingWentWrong")}</span>
+                    </div>
+                  )}
+                {!productsByCategory[categoryId]?.isLoading &&
+                  !productsByCategory[categoryId]?.hasError &&
+                  (productsByCategory[categoryId]?.data.length ? (
+                    productsByCategory[categoryId]?.data?.map((product) => (
+                      <ProductCard product={product} key={product.id} />
+                    ))
+                  ) : (
+                    <div className="col-span-full flex justify-center items-center py-8">
+                      <span>{text("noProductsFoundInThisCategory")}</span>
+                    </div>
+                  ))}
               </div>
+
+              {productsByCategory[categoryId]?.totalPages > 1 && (
+                <div
+                  dir="ltr"
+                  className="flex items-center justify-center gap-2 my-8 mx-auto w-fit"
+                >
+                  <Button
+                    onClick={() => handlePageChange(categoryId, "prev")}
+                    size="icon"
+                    variant="outline"
+                    disabled={productsByCategory[categoryId].currentPage === 1}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+
+                  <span key={index} className="px-2 ">
+                    {productsByCategory[categoryId].currentPage}
+                  </span>
+                  <Button
+                    onClick={() => handlePageChange(categoryId, "next")}
+                    size="icon"
+                    variant="outline"
+                    disabled={
+                      productsByCategory[categoryId].currentPage ===
+                      productsByCategory[categoryId].totalPages
+                    }
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </CarouselItem>
           ))}
         </CarouselContent>

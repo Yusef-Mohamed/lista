@@ -63,7 +63,7 @@ export default function Main() {
     if (status !== "prompt") fetchShops();
   }, [searchParams, location, status]);
   return (
-    <div>
+    <div className="mb-4">
       <section className="px-4">
         <div className="lg:hidden">
           <SearchInput className="max-w-full" />

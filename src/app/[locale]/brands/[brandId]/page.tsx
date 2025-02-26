@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import ProductCategoryDisplay from "./components/ProductCategoryDisplay";
 import ProductCard from "@/components/ProductCard";
-import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -37,14 +36,15 @@ const getBrand = async (brandId: string) => {
     return null;
   }
 };
-
-const getProducts = async (brandId: string) => {
+const getCategories = async (brandId: string) => {
   try {
-    const res = await cachedServerFetch(`/shop-products/${brandId}`);
-    return res.data;
+    const res = await cachedServerFetch(
+      `/product-categories?shop_id=${brandId}`
+    );
+    return res.data.reverse() as ICategory[];
   } catch (e) {
     console.log(e);
-    return null;
+    return [];
   }
 };
 
@@ -57,32 +57,8 @@ export default async function Brand({
 }) {
   const { brandId } = await params;
   const brand = (await getBrand(brandId)) as IShop;
-  const products = (await getProducts(brandId)) as IProduct[];
+  const categoriesArray = (await getCategories(brandId)) as ICategory[];
   const t = await getTranslations("brands");
-  const categoriesMap: { [key: number]: IProduct["categories"][number] } = {};
-  const productsByCategory: { [key: string]: IProduct[] } = {};
-  if (products) {
-    productsByCategory["offers"] = [];
-    for (const product of products) {
-      if (product.show_in_offer === 1) {
-        productsByCategory["offers"].push(product);
-      }
-      if (product?.categories) {
-        for (const category of product.categories) {
-          if (!categoriesMap[category.id]) {
-            categoriesMap[category.id] = category;
-          }
-          const categoryId = category.id.toString();
-          if (!productsByCategory[categoryId]) {
-            productsByCategory[categoryId] = [];
-          }
-          productsByCategory[categoryId].push(product);
-        }
-      }
-    }
-  }
-
-  const categoriesArray = Object.values(categoriesMap) as ICategory[];
   const { product } = await searchParams;
   return (
     <main>
@@ -95,22 +71,12 @@ export default async function Brand({
       >
         {product ? (
           <>
-            <DisplayProduct
-              product={product}
-              products={products}
-              productsByCategory={productsByCategory}
-            />
+            <DisplayProduct product={product} shop_id={brandId} />
           </>
         ) : (
           <>
             {brand ? (
               <>
-                {/* <div className="flex items-center justify-between">
-              <h1 className="h3 mb-4">{brand.shop_name}</h1>
-              <Link href={`/${brand.shop_id}/branches`}>
-                {locale === "ar" ? <MoveLeft /> : <MoveRight />}
-              </Link>
-            </div> */}
                 <div className="flex items-end mb-5 sm:mb-6 md:mb-8 justify-between">
                   <div className="basis-1/3">
                     <div className="w-fit">
@@ -216,7 +182,8 @@ export default async function Brand({
                 </div>
                 <ProductCategoryDisplay
                   categoriesArray={categoriesArray}
-                  productsByCategory={productsByCategory}
+                  hasOffer={brand.has_offers}
+                  shop_id={brandId}
                 />
               </>
             ) : (
@@ -230,32 +197,33 @@ export default async function Brand({
     </main>
   );
 }
-const DisplayProduct = ({
+const DisplayProduct = async ({
   product,
-  products,
-  productsByCategory,
+  shop_id,
 }: {
   product: string;
-  products: IProduct[];
-  productsByCategory: { [key: string]: IProduct[] };
+  shop_id: string;
 }) => {
-  const thisProduct = products.find((p) => p.id.toString() === product);
-  const t = useTranslations("brands");
+  const t = await getTranslations("brands");
 
-  if (!thisProduct)
+  // Fetch the specific product details
+  const thisProduct = await getProductDetails(product);
+
+  if (!thisProduct) {
     return (
-      <h1 className="h2 text-center py-12">{t("canNotFindThisProduct")}</h1>
+      <div className="text-center font-semibold ">
+        {t("canNotFindThisProduct")}
+      </div>
     );
-  const recommendedProducts =
-    thisProduct?.categories?.reduce((acc, category) => {
-      return acc.concat(productsByCategory[category.id.toString()]);
-    }, [] as IProduct[]) || [];
-  // i want to make recommended products have no repeated products objects make the id unique
+  }
+
+  // Fetch recommended products for the shop
+  const recommendedProducts = await getRecommendedProducts(shop_id);
+
+  // Ensure unique recommended products based on ID
   const recommendedProductsArray = Array.from(
-    new Set(recommendedProducts.map((a) => a.id))
-  ).map((id) => {
-    return recommendedProducts.find((a) => a.id === id);
-  });
+    new Set(recommendedProducts.map((p: IProduct) => p.id))
+  ).map((id) => recommendedProducts.find((p: IProduct) => p.id === id));
 
   return (
     <>
@@ -300,12 +268,44 @@ const DisplayProduct = ({
           {t("egp")}
         </div>
       </div>
-      <h2 className="h3 lg:mb-8 mb-6">{t("similarProducts")}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {recommendedProductsArray.map((product) =>
-          product ? <ProductCard product={product} key={product.id} /> : null
-        )}
-      </div>
+      {recommendedProductsArray.length ? (
+        <>
+          <h2 className="h3 lg:mb-8 mb-6">{t("similarProducts")}</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {recommendedProductsArray.map((product) =>
+              product ? (
+                <ProductCard product={product} key={product.id} />
+              ) : null
+            )}
+          </div>
+        </>
+      ) : null}
     </>
   );
+};
+
+// Function to fetch product details
+const getProductDetails = async (
+  productId: string
+): Promise<IProduct | null> => {
+  try {
+    const res = await cachedServerFetch(`/product/${productId}`);
+    return res.data as IProduct;
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return null;
+  }
+};
+
+// Function to fetch recommended products
+const getRecommendedProducts = async (shopId: string): Promise<IProduct[]> => {
+  try {
+    const res = await cachedServerFetch(
+      `/shop-products/${shopId}?is_recommended=1`
+    );
+    return res.data as IProduct[];
+  } catch (error) {
+    console.error("Error fetching recommended products:", error);
+    return [];
+  }
 };

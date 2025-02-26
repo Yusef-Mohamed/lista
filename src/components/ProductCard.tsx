@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { IProduct } from "@/types";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const { setSearchParams } = useCustomSearchParams();
@@ -81,3 +82,29 @@ const ProductCard = ({ product }: { product: IProduct }) => {
 };
 
 export default ProductCard;
+export const ProductSkeletonCard = () => {
+  return (
+    <div className="relative">
+      <div
+        style={{
+          height: "calc(100% - 2rem)",
+        }}
+        className="absolute w-full bg-background z-0 rounded-3xl bottom-0 right-0"
+      />
+      <div className="p-4 pt-0 space-y-4 relative">
+        {/* Image skeleton */}
+        <Skeleton className="w-full aspect-square rounded-xl" />
+
+        <div className="space-y-2">
+          {/* Title skeleton */}
+          <Skeleton className="h-6 rounded w-3/4" />
+
+          {/* Price skeleton */}
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 rounded w-24" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

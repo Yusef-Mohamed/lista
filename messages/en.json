@@ -92,7 +92,9 @@
     "phoneNumber": "Phone Number",
     "canNotFindThisProduct": "This product could not be found.",
     "nearestBranchToYou": "Nearest Branch to You",
-    "similarProducts": "Similar Products"
+    "similarProducts": "Similar Products",
+    "someThingWentWrong": "Something went wrong",
+    "noProductsFoundInThisCategory": "No products found in this category"
   },
   "footer": {
     "termsAndConditions": "Terms and Conditions",

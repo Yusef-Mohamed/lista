@@ -32,6 +32,7 @@ export interface IShop {
     lat: string;
     lng: string;
   }[];
+  has_offers: boolean;
 }
 export interface ICategory {
   id: number;

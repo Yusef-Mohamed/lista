@@ -92,7 +92,9 @@
     "phoneNumber": "رقم الهاتف",
     "canNotFindThisProduct": "لم يتم العثور علي هذا المنتج.",
     "nearestBranchToYou": "الفرع الأقرب إليك",
-    "similarProducts": "منتجات مشابهة"
+    "similarProducts": "منتجات مشابهة",
+    "noProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة",
+    "someThingWentWrong": "حدث خطأ ما"
   },
   "footer": {
     "termsAndConditions": "الشروط والأحكام",

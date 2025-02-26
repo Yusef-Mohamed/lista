@@ -112,6 +112,7 @@ function LanguageSwitcher() {
   const locale = useLocale();
   const handleLanguageChange = (value: string) => {
     router.push(pathname, { locale: value });
+    router.refresh();
   };
 
   return (
