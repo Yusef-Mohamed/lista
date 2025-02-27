@@ -33,6 +33,7 @@ export interface IShop {
     lng: string;
   }[];
   has_offers: boolean;
+  has_discount_product: boolean;
 }
 export interface ICategory {
   id: number;

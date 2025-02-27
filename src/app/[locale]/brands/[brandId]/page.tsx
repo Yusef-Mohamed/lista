@@ -57,6 +57,7 @@ export default async function Brand({
 }) {
   const { brandId } = await params;
   const brand = (await getBrand(brandId)) as IShop;
+  console.log(brand);
   const categoriesArray = (await getCategories(brandId)) as ICategory[];
   const t = await getTranslations("brands");
   const { product } = await searchParams;
@@ -182,7 +183,7 @@ export default async function Brand({
                 </div>
                 <ProductCategoryDisplay
                   categoriesArray={categoriesArray}
-                  hasOffer={brand.has_offers}
+                  hasOffer={brand.has_discount_product}
                   shop_id={brandId}
                 />
               </>
