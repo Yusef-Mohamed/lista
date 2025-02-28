@@ -18,12 +18,20 @@ interface ProductCategoryDisplayProps {
   categoriesArray: ICategory[];
   shop_id: string;
   hasOffer: boolean;
+  offers?: {
+    isLoading: boolean;
+    totalPages: number;
+    currentPage: number;
+    data: IProduct[];
+    hasError: boolean;
+  };
 }
 
 const ProductCategoryDisplay = ({
   categoriesArray,
   shop_id,
   hasOffer,
+  offers,
 }: ProductCategoryDisplayProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("offers");
   const [categoriesApi, setCategoriesApi] = useState<CarouselApi>();
@@ -36,7 +44,7 @@ const ProductCategoryDisplay = ({
       data: IProduct[];
       hasError: boolean;
     };
-  }>({});
+  }>(hasOffer && offers ? { offers: offers } : {});
   const text = useTranslations("brands");
   const categoryIds = useMemo(() => {
     return hasOffer

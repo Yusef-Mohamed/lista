@@ -47,6 +47,20 @@ const getCategories = async (brandId: string) => {
     return [];
   }
 };
+const getProductsOffers = async (brandId: string) => {
+  try {
+    const res = await cachedServerFetch(
+      `/shop-products/${brandId}?&has_offer=1&perPage=16`
+    );
+    return res;
+  } catch (e) {
+    console.log(e);
+    return {
+      totalPages: 1,
+      data: [],
+    };
+  }
+};
 
 export default async function Brand({
   params,
@@ -57,10 +71,14 @@ export default async function Brand({
 }) {
   const { brandId } = await params;
   const brand = (await getBrand(brandId)) as IShop;
-  console.log(brand);
   const categoriesArray = (await getCategories(brandId)) as ICategory[];
   const t = await getTranslations("brands");
   const { product } = await searchParams;
+  const offers = (await getProductsOffers(brandId)) as {
+    totalPages: number;
+    data: IProduct[];
+  };
+
   return (
     <main>
       <Header />
@@ -183,7 +201,14 @@ export default async function Brand({
                 </div>
                 <ProductCategoryDisplay
                   categoriesArray={categoriesArray}
-                  hasOffer={brand.has_discount_product}
+                  hasOffer={offers.data.length > 0}
+                  offers={{
+                    currentPage: 1,
+                    data: offers.data,
+                    hasError: false,
+                    isLoading: false,
+                    totalPages: offers.totalPages,
+                  }}
                   shop_id={brandId}
                 />
               </>
