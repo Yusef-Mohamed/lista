@@ -35,6 +35,7 @@ export default function Main() {
       try {
         const axiosInstance = await createClientAxiosInstance();
         const search: Record<string, unknown> = {};
+        search["get_all"] = true;
         if (searchParams.get("page")) search["page"] = searchParams.get("page");
         else search["page"] = 1;
         searchKeys.forEach((key) => {
