@@ -94,7 +94,8 @@
     "nearestBranchToYou": "Nearest Branch to You",
     "similarProducts": "Similar Products",
     "someThingWentWrong": "Something went wrong",
-    "noProductsFoundInThisCategory": "No products found in this category"
+    "noProductsFoundInThisCategory": "No products found in this category",
+    "mainBranch": "Main Branch"
   },
   "footer": {
     "termsAndConditions": "Terms and Conditions",

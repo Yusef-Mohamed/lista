@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MapPin } from "lucide-react";
+import { Phone, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 export async function generateMetadata({
   params,
@@ -78,7 +78,6 @@ export default async function Brand({
     totalPages: number;
     data: IProduct[];
   };
-
   return (
     <main>
       <Header />
@@ -114,7 +113,7 @@ export default async function Brand({
                             />
                           </svg>
                         </DialogTrigger>
-                        <DialogContent className="max-w-4xl">
+                        <DialogContent>
                           <DialogHeader className="hidden">
                             <DialogTitle>
                               {t("branches")} {brand.shop_name}
@@ -127,6 +126,7 @@ export default async function Brand({
                                 title: brand?.address,
                                 lat: brand?.address_lat,
                                 lng: brand?.address_lng,
+                                address: brand?.address,
                               },
                               ...brand?.branch_address,
                             ]?.map((branch) => (
@@ -136,9 +136,20 @@ export default async function Brand({
                                   className="py-2 flex items-center justify-between"
                                   target="_blank"
                                 >
-                                  <h3 className="h5">{branch.title}</h3>
-                                  <MapPin />
-                                </a>{" "}
+                                  <div>
+                                    <h3 className="h5">
+                                      {branch.id === 6000
+                                        ? t("mainBranch")
+                                        : branch.title}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground mt-1">
+                                      {branch.id === 6000
+                                        ? branch.title
+                                        : branch.address}
+                                    </p>
+                                  </div>
+                                  <Send />
+                                </a>
                               </li>
                             ))}
                           </ul>
@@ -164,14 +175,41 @@ export default async function Brand({
                           <DialogHeader className="hidden">
                             <DialogTitle>{t("phoneNumber")}</DialogTitle>
                           </DialogHeader>
-                          <div className="mt-4">
-                            <a
-                              href={`tel:${brand.shop_phone}`}
-                              className="text-lg font-semibold hover:underline"
-                            >
-                              {brand.shop_phone}
-                            </a>
-                          </div>
+                          <ul className="mt-2 divide-y">
+                            {[
+                              {
+                                id: 6000,
+                                title: brand?.address,
+                                lat: brand?.address_lat,
+                                lng: brand?.address_lng,
+                                address: brand?.address,
+                                phone: brand?.shop_phone,
+                              },
+                              ...brand?.branch_address,
+                            ]?.map((branch) => (
+                              <li key={branch.id}>
+                                <a
+                                  href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}
+                                  className="py-2 flex items-center justify-between"
+                                  target="_blank"
+                                >
+                                  <div>
+                                    <h3 className="h5">
+                                      {branch.id === 6000
+                                        ? t("mainBranch")
+                                        : branch.title}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground mt-1">
+                                      {branch.id === 6000
+                                        ? brand.shop_phone
+                                        : branch.phone}
+                                    </p>
+                                  </div>
+                                  <Phone />
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
                         </DialogContent>
                       </Dialog>
                     </div>
@@ -234,7 +272,6 @@ const DisplayProduct = async ({
 
   // Fetch the specific product details
   const thisProduct = await getProductDetails(product);
-
   if (!thisProduct) {
     return (
       <div className="text-center font-semibold ">
@@ -287,11 +324,24 @@ const DisplayProduct = async ({
         )}
         <h1 className="h3 mb-1">{thisProduct.name}</h1>
         <h2 className="h4 mb-6">{thisProduct.description}</h2>
-        <div className="font-bold flex items-center justify-center mx-auto w-fit px-4 py-2 rounded-md bg-background">
-          {thisProduct.discount_price
-            ? Number(thisProduct.price) - Number(thisProduct.discount_price)
-            : thisProduct.price}{" "}
-          {t("egp")}
+        <div className="space-y-4">
+          <div className="font-bold flex items-center justify-center mx-auto w-fit px-4 py-2 rounded-md bg-background">
+            {thisProduct.discount_price
+              ? Number(thisProduct.price) - Number(thisProduct.discount_price)
+              : thisProduct.price}{" "}
+            {t("egp")}
+          </div>{" "}
+          {thisProduct.prices.map((price) => (
+            <div
+              key={price.title}
+              className=" mx-auto w-fit px-3 py-1 rounded-md bg-background space-y-1"
+            >
+              <div className="font-bold text-sm flex items-center justify-center">
+                {price.price} {t("egp")}
+              </div>
+              <div className="text-xs font-bold text-center">{price.title}</div>
+            </div>
+          ))}
         </div>
       </div>
       {recommendedProductsArray.length ? (

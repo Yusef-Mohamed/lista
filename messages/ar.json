@@ -94,7 +94,8 @@
     "nearestBranchToYou": "الفرع الأقرب إليك",
     "similarProducts": "منتجات مشابهة",
     "noProductsFoundInThisCategory": "لا توجد منتجات في هذه الفئة",
-    "someThingWentWrong": "حدث خطأ ما"
+    "someThingWentWrong": "حدث خطأ ما",
+    "mainBranch": "الفرع الرئيسي"
   },
   "footer": {
     "termsAndConditions": "الشروط والأحكام",

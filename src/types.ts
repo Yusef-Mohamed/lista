@@ -31,6 +31,8 @@ export interface IShop {
     title: string;
     lat: string;
     lng: string;
+    address: string;
+    phone: string;
   }[];
   has_offers: boolean;
   has_discount_product: boolean;
@@ -52,5 +54,9 @@ export interface IProduct {
   is_hot: 0 | 1;
   image: string;
   categories: ICategory[];
+  prices: {
+    title: string;
+    price: number;
+  }[];
   created_at: string;
 }
