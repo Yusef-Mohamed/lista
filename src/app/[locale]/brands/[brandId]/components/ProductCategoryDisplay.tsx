@@ -193,7 +193,7 @@ const ProductCategoryDisplay = ({
               >
                 <div
                   className={cn(
-                    "w-full transition-all flex items-center justify-center aspect-square rounded-3xl",
+                    "w-full transition-all  flex items-center justify-center aspect-square rounded-3xl",
                     {
                       "bg-foreground": selectedCategory === categoryId,
                       "bg-background": selectedCategory !== categoryId,
@@ -216,7 +216,7 @@ const ProductCategoryDisplay = ({
                       alt="category"
                       width={100}
                       height={100}
-                      className="w-[70%]"
+                      className="w-[70%] aspect-square object-contain "
                     />
                   )}
                 </div>
