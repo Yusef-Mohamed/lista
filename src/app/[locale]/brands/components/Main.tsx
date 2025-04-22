@@ -47,7 +47,8 @@ export default function Main() {
             }
           }
         });
-        if (searchParams.get("sort_by") === "nearest") {
+        if (search.sort === "nearest") {
+          console.log(location);
           search["lat"] = location?.latitude;
           search["lng"] = location?.longitude;
         }
