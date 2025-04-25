@@ -78,6 +78,7 @@ export default async function Brand({
     totalPages: number;
     data: IProduct[];
   };
+  console.log(brand, "brand");
   return (
     <main>
       <Header />
@@ -186,29 +187,31 @@ export default async function Brand({
                                 phone: brand?.shop_phone,
                               },
                               ...brand?.branch_address,
-                            ]?.map((branch) => (
-                              <li key={branch.id}>
-                                <a
-                                  href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}
-                                  className="py-2 flex items-center justify-between"
-                                  target="_blank"
-                                >
-                                  <div>
-                                    <h3 className="h5">
-                                      {branch.id === 6000
-                                        ? t("mainBranch")
-                                        : branch.title}
-                                    </h3>
-                                    <p className="text-sm text-muted-foreground mt-1">
-                                      {branch.id === 6000
-                                        ? brand.shop_phone
-                                        : branch.phone}
-                                    </p>
-                                  </div>
-                                  <Phone />
-                                </a>
-                              </li>
-                            ))}
+                            ]?.map((branch) =>
+                              !branch.phone ? null : (
+                                <li key={branch.id}>
+                                  <a
+                                    href={`tel:${branch.phone}`}
+                                    className="py-2 flex items-center justify-between"
+                                    target="_blank"
+                                  >
+                                    <div>
+                                      <h3 className="h5">
+                                        {branch.id === 6000
+                                          ? t("mainBranch")
+                                          : branch.title}
+                                      </h3>
+                                      <p className="text-sm text-muted-foreground mt-1">
+                                        {branch.id === 6000
+                                          ? brand.shop_phone
+                                          : branch.phone}
+                                      </p>
+                                    </div>
+                                    <Phone />
+                                  </a>
+                                </li>
+                              )
+                            )}
                           </ul>
                         </DialogContent>
                       </Dialog>
@@ -239,7 +242,7 @@ export default async function Brand({
                 </div>
                 <ProductCategoryDisplay
                   categoriesArray={categoriesArray}
-                  hasOffer={offers.data.length > 0}
+                  hasOffer={offers.data?.length > 0}
                   offers={{
                     currentPage: 1,
                     data: offers.data,
@@ -344,7 +347,7 @@ const DisplayProduct = async ({
           ))}
         </div>
       </div>
-      {recommendedProductsArray.length ? (
+      {recommendedProductsArray?.length ? (
         <>
           <h2 className="h3 lg:mb-8 mb-6">{t("similarProducts")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
