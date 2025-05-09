@@ -78,7 +78,6 @@ export default async function Brand({
     totalPages: number;
     data: IProduct[];
   };
-  console.log(brand, "brand");
   return (
     <main>
       <Header />

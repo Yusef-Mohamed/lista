@@ -29,9 +29,9 @@ export async function cachedServerFetch<T = any>(
 ): Promise<T> {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
-
   const headers = new Headers(options?.headers);
   headers.set("Accept-Language", locale);
+
   headers.set("X-API-KEY", process.env.NEXT_PUBLIC_API_KEY || "");
   if (method === "POST") {
     headers.set("Content-Type", "application/json");
